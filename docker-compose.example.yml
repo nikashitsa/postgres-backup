@@ -12,6 +12,7 @@ services:
       PARAMS: 'full --volsize=200 --s3-multipart-chunk-size=100'
       POSTGRES_DUMP_PARAMS: '-c --if-exists -Fc -d mydatabase'
       POSTGRES_RESTORE_PARAMS: '-c --if-exists -d mydatabase'
+      PGPASSWORD: 'put your value here'
       BACKUP_LIFETIME: '30D' # remove old (30 days) backups. Remove this line to keep all backups
       BACKUP_TIME: '0 3 * * *' # once per day.
       AWS_ACCESS_KEY_ID: 'put your value here'

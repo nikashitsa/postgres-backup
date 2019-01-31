@@ -12,6 +12,7 @@ services:
       PARAMS: ''
       POSTGRES_DUMP_PARAMS: ''
       POSTGRES_RESTORE_PARAMS: ''
+      PGPASSWORD: ''
       BACKUP_LIFETIME: ''
       BACKUP_TIME: ''
       AWS_ACCESS_KEY_ID: ''
