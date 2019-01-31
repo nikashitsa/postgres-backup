@@ -1,0 +1,16 @@
+#!/bin/sh
+
+echo '=== Duplicity restore ==='
+duplicity restore $@ \
+    --force \
+    --no-encryption \
+    ${REMOTE_URL} \
+    /tmp/backup
+
+echo '=== Postgres restore ==='
+pg_restore -h postgres -U postgres ${POSTGRES_RESTORE_PARAMS} /tmp/backup
+
+echo "=== Removing backups from local disk ==="
+rm -rf /tmp/backup
+
+echo "=== Done ==="

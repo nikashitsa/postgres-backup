@@ -1,0 +1,29 @@
+version: '2.4'
+services:
+
+  postgres_backup:
+    image: nikashitsa/postgres-backup
+    mem_limit: 50mb # perhaps you need to increase this limit
+    cpus: 0.5
+    volumes:
+      - /postgres-backup/cache:/root/.cache/duplicity
+    environment:
+      REMOTE_URL: 's3://s3.eu-central-1.amazonaws.com/postgres-backup/backups'
+      PARAMS: 'full --volsize=200 --s3-multipart-chunk-size=100'
+      POSTGRES_DUMP_PARAMS: '-c --if-exists -Fc -d mydatabase'
+      POSTGRES_RESTORE_PARAMS: '-c --if-exists -d mydatabase'
+      BACKUP_LIFETIME: '30D' # remove old (30 days) backups. Remove this line to keep all backups
+      BACKUP_TIME: '0 3 * * *' # once per day.
+      AWS_ACCESS_KEY_ID: 'put your value here'
+      AWS_SECRET_ACCESS_KEY: 'put your value here'
+      TELEGRAM_TOKEN: 'put your value here' # optional
+      TELEGRAM_CHAT_ID: 'put your value here' # optional
+    links:
+      - db:postgres
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '5'
+
+  db:
+    image: postgres:11.1
